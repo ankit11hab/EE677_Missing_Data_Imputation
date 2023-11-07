@@ -38,7 +38,7 @@ class Functions:
         detrended_data.index = data.index
         return trend, detrended_data
     
-    def time_to_word(self, time):
+    def time_to_column(self, time):
         word = 'Power(t'
         if time>0:
             word = word+'+'+str(time)+')'
@@ -46,9 +46,16 @@ class Functions:
             word = word+str(time)+')'
         return word
     
+    def time_set_to_columns(self, times):
+        columns = []
+        for time in times:
+            column = self.time_to_column(time)
+            columns.append(column)
+        return columns
+    
     def do_power_shifts(self, data, values, column='Power'):
         for val in values:
-            new_column = self.time_to_word(val)
+            new_column = self.time_to_column(val)
             data[new_column] = data[column].shift(val*(-1))
         return data
     

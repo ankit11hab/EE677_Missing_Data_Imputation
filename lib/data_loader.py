@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from functions import Functions
+from lib.functions import Functions
 
 class IITG_DataLoader:
     data = None
@@ -11,7 +11,7 @@ class IITG_DataLoader:
 
     def __init__(self, data = None):
         self.functions = Functions()
-        if data:
+        if data is not None:
             self.data = data
         
     def __update_corrupt_power(self, row):
@@ -114,7 +114,7 @@ class IITG_DataLoader:
         if data is not None:
             self.data = data
     
-    def plot(self, start_time = None, end_time = None, data = None, type='plot'):
+    def plot(self, start_time = None, end_time = None, data = None, type='plot', color='b'):
         if data is None:
             if self.data is None:
                 print("Data not found in method: plot")
@@ -128,9 +128,9 @@ class IITG_DataLoader:
         ax1.set_ylabel('Power Consumed', color='b')
         # fig=plt.figure()
         if type=='plot':
-            plt.plot(y)
+            plt.plot(y, color=color)
         elif type=='scatter':
-            plt.scatter(y)
+            plt.scatter(y, color=color)
         fig.autofmt_xdate()
         # plt.show()
         return plt
