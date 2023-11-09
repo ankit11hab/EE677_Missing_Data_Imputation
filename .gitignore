@@ -2,5 +2,7 @@ power_import_data/
 pv_gen_data/
 power_import_data_test/
 pv_gen_data_test/
+weather_data/
+screenshots/
 __pycache__/
 lib/__pycache__
