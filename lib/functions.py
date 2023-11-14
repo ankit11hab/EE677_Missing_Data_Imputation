@@ -33,8 +33,9 @@ class Functions:
         interpolated_data = self.interpolate(interpolated_data, method='bfill', column=column)
         interpolated_data = self.interpolate(interpolated_data, method='ffill', column=column)
         trend = self.find_trend(interpolated_data[column], order)
-        detrended = data['Power'].values - trend
-        detrended_data = pd.DataFrame({'Power':detrended})
+        detrended = data[column].values - trend
+        detrended_data = data.copy()
+        detrended_data[column] = detrended.values
         detrended_data.index = data.index
         return trend, detrended_data
     
@@ -49,6 +50,9 @@ class Functions:
     def time_set_to_columns(self, times):
         columns = []
         for time in times:
+            if isinstance(time, str):
+                columns.append(time)
+                continue
             column = self.time_to_column(time)
             columns.append(column)
         return columns
@@ -80,3 +84,13 @@ class Functions:
                 l = daily_sub+seasonal_sub
                 all_subs.append(l)
         return all_subs
+    
+    def export_data(self, data, folder_path, file_prefix, rename_index_to = 'Time', power_column = 'Power'):
+        data.reset_index(inplace=True)
+        data.rename(columns={'index':rename_index_to}, inplace=True)
+        data[power_column].fillna('NR', inplace=True)
+        data[rename_index_to] = pd.to_datetime(data[rename_index_to]) 
+
+        for date, group in data.groupby(data[rename_index_to].dt.date):
+            file_name = f"{folder_path}/{file_prefix}_{date}.xlsx" 
+            group.to_excel(file_name, index=False, engine='openpyxl')

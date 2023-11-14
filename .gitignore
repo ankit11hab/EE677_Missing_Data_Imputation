@@ -4,5 +4,6 @@ power_import_data_test/
 pv_gen_data_test/
 weather_data/
 screenshots/
+power_demand_imputed_data/
 __pycache__/
 lib/__pycache__
