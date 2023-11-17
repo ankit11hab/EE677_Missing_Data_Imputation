@@ -155,15 +155,7 @@ class IITG_DataLoader:
                 'Values': [columns, shape, start_time, end_time, mean_power, nan_power]}
         return pd.DataFrame(table)
     
-    def energy_consumed(self, start_time = None, end_time = None, data = None, use_monthly_data = False):
-        if use_monthly_data == True:
-            if data is None:
-                if self.monthly_energy_data is None:
-                    print("Data not found in method: energy_consumed")
-                    return None
-                data = self.monthly_energy_data
-            data = self.get_data(start_time, end_time, data, use_month_key = True)
-            return data[self.__energy_key].sum()
+    def energy_consumed(self, start_time = None, end_time = None, data = None):
         if data is None:
             if self.data is None:
                 print("Data not found in method: energy_consumed")
